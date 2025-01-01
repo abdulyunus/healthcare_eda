@@ -30,11 +30,11 @@ def plot_patient_summary(filtered_df):
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .male-patients {
-            background-color: #6495ED;  /* Green for male patients */
+            background-color:  #45b39d;  /* Green for male patients */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .female-patients {
-            background-color: #6495ED;  /* Red for female patients */
+            background-color:  #7f8c8d;  /* Red for female patients */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         </style>
