@@ -1,6 +1,6 @@
 import streamlit as st
 from data_preprocessing import load_and_preprocess_data, filter_data
-from data_visualization import plot_patient_summary, plot_nationality_and_gender, plot_patients_by_year, plot_age_and_department, plot_cost_bubbles, plot_payment_method, display_growth_analysis, display_patient_trends_over_time,plot_patients_by_hospital
+from data_visualization import plot_patient_summary, plot_nationality_and_gender, plot_cost_vs_hospital_box,plot_top_5_diagnosis_by_patients, plot_patients_by_year, plot_age_and_department, plot_cost_bubbles, plot_payment_method, display_growth_analysis, display_patient_trends_over_time,plot_patients_by_hospital
 
 # Streamlit page configuration
 st.set_page_config(page_title="Healthcare Data Analysis Dashboard", page_icon=':bar_chart:', layout='wide')
@@ -54,8 +54,14 @@ display_growth_analysis(filtered_df)
 # Display trend analysis over time
 display_patient_trends_over_time(filtered_df)
 
+# Display top 5 diagnosis by total patients
+plot_top_5_diagnosis_by_patients(filtered_df)
+
 # Cost Analysis Section
 plot_cost_bubbles(filtered_df)
+
+# Cost outliers
+plot_cost_vs_hospital_box(filtered_df)
 
 # Payment Method Analysis
 plot_payment_method(filtered_df)

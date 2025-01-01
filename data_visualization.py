@@ -17,24 +17,24 @@ def plot_patient_summary(filtered_df):
             padding: 20px;
             border-radius: 10px;
             color: white;
-            font-size: 18px;
+            font-size: 15px;
             text-align: center;
-            width: 100%;
-            height: 120px;
+            width: 90%;
+            height: 110px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
         .total-patients {
-            background-color: #007bff;  /* Blue for total patients */
+            background-color: #6495ED;  /* Blue for total patients - #007bff */ 
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .male-patients {
-            background-color: #28a745;  /* Green for male patients */
+            background-color: #6495ED;  /* Green for male patients */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .female-patients {
-            background-color: #dc3545;  /* Red for female patients */
+            background-color: #6495ED;  /* Red for female patients */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         </style>
@@ -75,7 +75,7 @@ def plot_age_and_department(filtered_df):
     with col1:
         age_histogram = px.histogram(
             filtered_df, x='Age', nbins=15, title="Age Distribution of Patients", labels={'Age': 'Patient Age'},
-            text_auto=True, color_discrete_sequence=px.colors.qualitative.Prism
+            text_auto=True, color_discrete_sequence=px.colors.qualitative.Pastel
         )
         age_histogram.update_layout(bargap=0.01)
         st.plotly_chart(age_histogram)
@@ -301,3 +301,81 @@ def plot_patients_by_year(filtered_df):
 
     # Display the chart in Streamlit
     st.plotly_chart(fig)
+
+
+def plot_top_5_diagnosis_by_patients(filtered_df):
+    """
+    Plots a bar chart showing the top 5 Diagnosis Names by total number of patients.
+
+    Parameters:
+    filtered_df (DataFrame): Filtered healthcare data
+    """
+    # Group by Diagnosis_Name and count the number of patients
+    diagnosis_patient_count = filtered_df.groupby('Diagnosis_Name')['patient_id'].count().reset_index()
+
+    # Rename columns for clarity
+    diagnosis_patient_count.columns = ['Diagnosis_Name', 'Patient Count']
+
+    # Sort the data to get the top 5 Diagnosis Names by patient count
+    top_5_diagnoses = diagnosis_patient_count.nlargest(5, 'Patient Count')
+
+    # Plot the bar chart using Plotly Express
+    fig = px.bar(top_5_diagnoses,
+                 x='Diagnosis_Name',
+                 y='Patient Count',
+                 title='Top 5 Diagnosis Names by Total Patients',
+                 labels={'Diagnosis_Name': 'Diagnosis Name', 'Patient Count': 'Number of Patients'},
+                 text='Patient Count',  # Display patient count on top of bars
+                 color='Diagnosis_Name',  # Use different colors for each bar
+                 color_discrete_sequence=px.colors.qualitative.Vivid)  # Multi-color bars
+
+    # Customize the layout
+    fig.update_layout(
+        xaxis_title="Diagnosis Name",
+        yaxis_title="Number of Patients",
+        xaxis_tickangle=-45,  # Rotate x-axis labels for better readability
+        plot_bgcolor="rgba(0,0,0,0)",  # Transparent background
+        paper_bgcolor="rgba(0,0,0,0)",  # Transparent background
+        showlegend=False  # Hide the legend (not necessary for a bar chart with 5 items)
+    )
+
+    # Display the chart in Streamlit
+    st.plotly_chart(fig)
+
+
+import streamlit as st
+import plotly.express as px
+
+def plot_cost_vs_hospital_box(filtered_df):
+    """
+    Plots a box plot showing the distribution of cost across different hospital names.
+
+    Parameters:
+    filtered_df (DataFrame): Filtered healthcare data
+    """
+    # Ensure that the required columns are present in the DataFrame
+    if 'Hospital Name' in filtered_df.columns and 'cost' in filtered_df.columns:
+        # Plot the box plot using Plotly Express
+        fig = px.box(filtered_df,
+                     x='Hospital Name',
+                     y='cost',
+                     title='Cost Distribution Across Hospitals',
+                     color='Hospital Name',  # Different colors for each hospital
+                     color_discrete_sequence=px.colors.qualitative.Vivid,  # Use a vivid color palette
+                     points="all")  # Show all points for more granular detail
+
+        # Customize the layout
+        fig.update_layout(
+            xaxis_title="Hospital Name",
+            yaxis_title="Cost",
+            xaxis_tickangle=-45,  # Rotate x-axis labels for readability
+            plot_bgcolor="rgba(0,0,0,0)",  # Transparent background
+            paper_bgcolor="rgba(0,0,0,0)",  # Transparent background
+            showlegend=False  # Hide the legend (not needed for this plot)
+        )
+
+        # Display the chart in Streamlit
+        st.plotly_chart(fig)
+    else:
+        st.error("Required columns 'Hospital Name' and 'cost' are not available in the dataset.")
+
