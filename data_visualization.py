@@ -1,6 +1,8 @@
-import plotly.express as px
-import streamlit as st
 import pandas as pd
+import streamlit as st
+import plotly.express as px
+import plotly.graph_objects as go
+
 
 def plot_patient_summary(filtered_df):
     total_patients = len(filtered_df)
@@ -14,7 +16,7 @@ def plot_patient_summary(filtered_df):
     st.markdown("""
         <style>
         .metric-container {
-            padding: 20px;
+            padding: 2px;
             border-radius: 10px;
             color: white;
             font-size: 15px;
@@ -187,10 +189,6 @@ def plot_payment_method(filtered_df):
     st.plotly_chart(payment_method_bar)
 
 
-import plotly.express as px
-import plotly.graph_objects as go
-import streamlit as st
-
 def plot_patients_by_hospital(filtered_df):
     """
     Plots a bar chart showing the number of patients by Hospital Name along with total counts and percentages.
@@ -243,15 +241,6 @@ def plot_patients_by_hospital(filtered_df):
     # Display the chart in Streamlit
     st.plotly_chart(fig)
 
-import plotly.express as px
-import plotly.graph_objects as go
-import streamlit as st
-import pandas as pd
-
-import plotly.express as px
-import plotly.graph_objects as go
-import streamlit as st
-import pandas as pd
 
 def plot_patients_by_year(filtered_df):
     """
@@ -343,8 +332,6 @@ def plot_top_5_diagnosis_by_patients(filtered_df):
     st.plotly_chart(fig)
 
 
-import streamlit as st
-import plotly.express as px
 
 def plot_cost_vs_hospital_box(filtered_df):
     """
@@ -378,4 +365,3 @@ def plot_cost_vs_hospital_box(filtered_df):
         st.plotly_chart(fig)
     else:
         st.error("Required columns 'Hospital Name' and 'cost' are not available in the dataset.")
-

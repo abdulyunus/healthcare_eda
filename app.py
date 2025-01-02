@@ -3,19 +3,9 @@ from data_preprocessing import load_and_preprocess_data, filter_data
 from data_visualization import plot_patient_summary, plot_nationality_and_gender, plot_cost_vs_hospital_box,plot_top_5_diagnosis_by_patients, plot_patients_by_year, plot_age_and_department, plot_cost_bubbles, plot_payment_method, display_growth_analysis, display_patient_trends_over_time,plot_patients_by_hospital
 
 # Streamlit page configuration
-st.set_page_config(page_title="Healthcare Data Analysis Dashboard", page_icon=':bar_chart:', layout='wide')
+st.set_page_config(page_title="Healthcare Data Analysis Dashboard",
+                   page_icon=':bar_chart:', layout='wide')
 
-# Add CSS for the background image
-page_bg_img = '''
-<style>
-body {
-background-image: url("https://images.unsplash.com/photo-1542281286-9e0a16bb7366");
-background-size: cover;
-}
-</style>
-'''
-
-st.markdown(page_bg_img, unsafe_allow_html=True)
 # Load data
 df = load_and_preprocess_data('data_healthcare.csv')
 
@@ -36,8 +26,23 @@ if not nationalities:
 # Filter data
 filtered_df = filter_data(df, genders, years, nationalities)
 
+
 # Patient Summary Section
-st.title(":bar_chart: Exploratory Data Analysis - Healthcare Data")
+# Custom CSS to reduce the top margin
+st.markdown("""
+    <style>
+    .css-18e3th9 {
+        padding-top: 0rem;
+    }
+    .css-1d391kg {
+        padding-top: 0rem;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+
+# Patient Summary Section
+st.title(":bar_chart: :blue[__Exploratory Data Analysis - Healthcare Data__]")
 plot_patient_summary(filtered_df)
 
 # Demographics Section
